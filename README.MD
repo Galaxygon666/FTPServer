@@ -1,4 +1,4 @@
-# Simple FTP server written in Java
+# Simple FTP server
 
 <h2>Info</h2>
 This is a collaborative project to make a simple
