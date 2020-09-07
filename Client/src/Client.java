@@ -70,22 +70,24 @@ public class Client
 
         JLabel label = new JLabel("Enter ip below");
         JTextField txIn = new JTextField(16);
-
+        
         label.setBounds(50, 100, 200, 30);
         txIn.setBounds(50, 130, 200, 30);
-
         btn.setBounds(50, 170, 200, 40);
+
         btn.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 Client client = new Client(txIn.getText(), 5000);
             }
         });
 
-        frame.add(btn);
 
         frame.add(txIn);
         frame.add(label);
+
+        frame.add(btn);
 
         frame.setSize(330, 400);
         frame.setLayout(null);
