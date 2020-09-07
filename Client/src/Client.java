@@ -1,5 +1,9 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.*;
 import java.io.*;
+
+import javax.swing.*;
 
 public class Client
 {
@@ -61,6 +65,30 @@ public class Client
 
     public static void main(String[] args)
     {
-        Client client = new Client("127.0.0.1", 5000);
+        JFrame frame = new JFrame("Server client");
+        JButton btn = new JButton("Connect");
+
+        JLabel label = new JLabel("Enter ip below");
+        JTextField txIn = new JTextField(16);
+
+        label.setBounds(50, 100, 200, 30);
+        txIn.setBounds(50, 130, 200, 30);
+
+        btn.setBounds(50, 170, 200, 40);
+        btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Client client = new Client(txIn.getText(), 5000);
+            }
+        });
+
+        frame.add(btn);
+
+        frame.add(txIn);
+        frame.add(label);
+
+        frame.setSize(330, 400);
+        frame.setLayout(null);
+        frame.setVisible(true);
     }
 }
