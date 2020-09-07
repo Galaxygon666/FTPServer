@@ -8,7 +8,7 @@ Our goal is to learn a bit about Socket programming and Java
 Java 14.0.2
 
 <h2>TODO</h2>
-- Try port forwarding
-- Make file transfer protocol
-- Make GUI for FTP
-- Style the GUI
+- Try port forwarding <br>
+- Make file transfer protocol <br>
+- Make GUI for FTP <br>
+- Style the GUI <br>
