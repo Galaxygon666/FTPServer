@@ -1,13 +1,16 @@
+import java.awt.*;
+import java.awt.color.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.*;
+
+
 import java.net.*;
 import java.io.*;
 
 
-
-import javax.swing.*;
 
 public class Client
 {
@@ -16,12 +19,20 @@ public class Client
     private DataOutputStream output = null;
     private BufferedReader br = null;
 
+    static JFrame frame;
+    static JPanel panel;
+    static JLabel title;
+    static JLabel status;
+    static JTextField text;
+    static JButton conn;
+
     public Client(String address, int port)
     {
         try
         {
             socket = new Socket(address, port);
             System.out.println("Connected to server!");
+            status.setVisible(true);
 
 
             input = new DataInputStream(socket.getInputStream());
@@ -32,6 +43,7 @@ public class Client
         catch(IOException u)
         {
             System.out.println(u);
+            status.setText("There was an error connecting");
         }
 
         String line = "";
@@ -69,40 +81,67 @@ public class Client
 
     public static void main(String[] args)
     {
-        JFrame frame = new JFrame("Server client");
-        JButton btn = new JButton("Connect");
+        frame = new JFrame("DragonFiles: Client side");
+        frame.setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/Icon.png"));
+        panel = new JPanel();
+        panel.setBounds(0,0,400,400);
+        panel.setBackground(new Color(49, 49, 49));
 
-        JLabel label = new JLabel("Enter ip below");
-        JTextField txIn = new JTextField(16);
-        
-        label.setBounds(50, 100, 200, 30);
-        txIn.setBounds(50, 130, 200, 30);
-        btn.setBounds(50, 170, 200, 40);
+        // Input field Label
+        title = new JLabel("Enter ip");
+        title.setForeground(new Color(255, 255, 255));
+        title.setFont(new Font("Arial", Font.PLAIN, 18));
+        title.setBounds(90,20,200,30);
 
-        btn.addActionListener(new ActionListener() {
+        // Ip input field
+        text = new JTextField();
+        text.setBounds(90,55,200,30);
+
+        // Server connect button
+        conn = new JButton("Connect");
+        conn.setBackground(new Color(202, 62, 71));
+        conn.setForeground(Color.white);
+        conn.setBounds(90,100,200,30);
+
+        // Connection made Lable
+        status = new JLabel();
+        status.setBounds(90,130,200,30);
+        title.setFont(new Font("Arial", Font.PLAIN, 14));
+        status.setForeground(Color.white);
+        status.setVisible(false);
+
+
+        //Connect button connect function
+        conn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e)
             {
                 new Thread(() -> {
-                    Client client = new Client(txIn.getText(), 5000);
+                    Client client = new Client(text.getText(), 5000);
                 }).start();
 
+                status.setText("Connected to: " + text.getText());
             }
         });
 
+        // Elements
+        frame.add(title);
+        frame.add(text);
+        frame.add(conn);
+        frame.add(status);
 
-        frame.add(txIn);
-        frame.add(label);
-
-        frame.add(btn);
-
-        frame.setSize(330, 400);
+        // Finalize
+        frame.add(panel);
+        frame.setSize(400, 400);
         frame.setLayout(null);
         frame.setVisible(true);
+
+        // Exit code on window close
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent we) {
                 System.exit(0);
             }
         });
+
     }
 }
