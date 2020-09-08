@@ -8,4 +8,5 @@ Java 14.0.2 <br>
 <a href="https://colorhunt.co/palette/149559">Color pallet</a>
 
 <h2>TODO</h2>
-- Make file transfer protocol <br>
+- Fix server client GUI (Galaxygon666) <br>
+- Make file transfer protocol (The_Dropper)<br>
