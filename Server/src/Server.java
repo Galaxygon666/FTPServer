@@ -24,7 +24,7 @@ public class Server
     static JLabel ip;
     static JButton conn;
 
-    public Server(int port) throws FileNotFoundException {
+    public Server(int port) {
         try
         {
             server = new ServerSocket(port);
@@ -110,12 +110,7 @@ public class Server
             public void actionPerformed(ActionEvent e)
             {
                 new Thread(() -> {
-
-                    try {
                         Server server = new Server( 5000);
-                    } catch (FileNotFoundException fileNotFoundException) {
-                        fileNotFoundException.printStackTrace();
-                    }
                 }).start();
 
             }
