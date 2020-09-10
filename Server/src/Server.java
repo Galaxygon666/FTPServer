@@ -11,10 +11,12 @@ import java.io.*;
 
 public class Server
 {
+    // Initiate server stuff
     private Socket socket = null;
     private ServerSocket server = null;
     private DataInputStream input = null;
 
+    // GUI elements
     static JFrame frame;
     static JPanel panel;
     static JLabel title;
@@ -22,23 +24,20 @@ public class Server
     static JLabel ip;
     static JButton conn;
 
-    public Server(int port)
-    {
+    public Server(int port) throws FileNotFoundException {
         try
         {
             server = new ServerSocket(port);
-            System.out.println("Server started...");
-            System.out.println("Waiting for connection...");
-
             socket = server.accept();
-            System.out.println("Connection accepted!");
-            //System.out.println(socket.getInetAddress());
 
+            // Gets client ip and turns it to a string
             String ipClient = socket.getInetAddress().toString();
+
+            // "Prints" connection status and client ip in GUI
             status.setText("Connection made!");
             ip.setText("Connected to: " + ipClient.replace("/", ""));
 
-
+            // Get data input stream
             input = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
             String line = "";
 
@@ -48,6 +47,7 @@ public class Server
                 {
                     line = input.readUTF();
                     System.out.println(line);
+                    status.setText("Connection failed...");
                 }
                 catch (IOException i)
                 {
@@ -55,7 +55,6 @@ public class Server
                     break;
                 }
             }
-            System.out.println("Connection lost...");
             status.setText("Connection lost...");
             ip.setText("");
 
@@ -112,7 +111,11 @@ public class Server
             {
                 new Thread(() -> {
 
-                    Server server = new Server( 5000);
+                    try {
+                        Server server = new Server( 5000);
+                    } catch (FileNotFoundException fileNotFoundException) {
+                        fileNotFoundException.printStackTrace();
+                    }
                 }).start();
 
             }
