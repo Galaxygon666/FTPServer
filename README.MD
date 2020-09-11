@@ -9,6 +9,7 @@ Java 14.0.2 <br>
 
 <h2>TODO</h2>
 - Make file transfer protocol (The_Dropper)<br>
+- Make Error logger (Galaxygon666) <br>
 - Make disconnect function (Galaxygon666) <br>
 - Make file upload function (Galaxygon666)<br>
 
