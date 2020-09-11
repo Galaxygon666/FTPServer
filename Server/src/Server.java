@@ -37,6 +37,18 @@ public class Server
             status.setText("Connection made!");
             ip.setText("Connected to: " + ipClient.replace("/", ""));
 
+            // sendfile
+            File file = new File ("test.txt");
+            byte[] mybytearray  = new byte[(int)file.length()];
+            FileInputStream fis = new FileInputStream(file);
+            BufferedInputStream bis = new BufferedInputStream(fis);
+            bis.read(mybytearray,0,mybytearray.length);
+            OutputStream os = socket.getOutputStream();
+            System.out.println("Sending...");
+            os.write(mybytearray,0,mybytearray.length);
+            os.flush();
+
+
             // Get data input stream
             input = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
             String line = "";

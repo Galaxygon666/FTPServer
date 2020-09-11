@@ -18,6 +18,8 @@ public class Client
     private DataInputStream input = null;
     private DataOutputStream output = null;
     private BufferedReader br = null;
+    private BufferedOutputStream bos = null;
+    private FileOutputStream fos = null;
 
     static JFrame frame;
     static JPanel panel;
@@ -28,6 +30,10 @@ public class Client
 
     public Client(String address, int port)
     {
+        int filesize=6022386;
+        int bytesRead;
+        int current = 0;
+
         try
         {
             socket = new Socket(address, port);
@@ -38,6 +44,22 @@ public class Client
             input = new DataInputStream(socket.getInputStream());
             br = new BufferedReader(new InputStreamReader(input));
             output = new DataOutputStream(socket.getOutputStream());
+
+            // receive file
+            byte[] bytes  = new byte[filesize];
+            InputStream is = socket.getInputStream();
+            fos = new FileOutputStream("test2.txt");
+            bos = new BufferedOutputStream(fos);
+            bytesRead = is.read(bytes, 0, bytes.length);
+            current = bytesRead;
+            // thanks to A. Cdiz for the bug fix
+            do {
+                bytesRead =
+                        is.read(bytes, current, (bytes.length-current));
+                if(bytesRead >= 0) current += bytesRead;
+            } while(bytesRead > -1);
+            bos.write(bytes, 0 , current);
+            bos.flush();
 
         }
         catch(IOException u)
@@ -69,6 +91,7 @@ public class Client
             input.close();
             output.close();
             socket.close();
+            bos.close();
 
         }
         catch (IOException i)
