@@ -30,7 +30,6 @@ public class Client
 
     public Client(String address, int port)
     {
-        int filesize=6022386;
         int bytesRead;
         int current = 0;
 
@@ -46,13 +45,12 @@ public class Client
             output = new DataOutputStream(socket.getOutputStream());
 
             // receive file
-            byte[] bytes  = new byte[filesize];
+            byte[] bytes  = new byte[3 * 1024];
             InputStream is = socket.getInputStream();
-            fos = new FileOutputStream("test2.txt");
+            fos = new FileOutputStream("./test2.txt");
             bos = new BufferedOutputStream(fos);
             bytesRead = is.read(bytes, 0, bytes.length);
             current = bytesRead;
-            // thanks to A. Cdiz for the bug fix
             do {
                 bytesRead =
                         is.read(bytes, current, (bytes.length-current));
@@ -68,8 +66,7 @@ public class Client
             status.setText("There was an error connecting");
         }
 
-        String line = "";
-
+        /*String line = "";
         while (!line.equals("Over"))
         {
             try
@@ -84,7 +81,7 @@ public class Client
                 System.out.println("Connection lost!");
                 break;
             }
-        }
+        }*/
 
         try
         {

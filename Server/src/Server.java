@@ -28,32 +28,32 @@ public class Server
         try
         {
             server = new ServerSocket(port);
-            socket = server.accept();
+            while(true) {
+                socket = server.accept();
+                // Gets client ip and turns it to a string
+                //String ipClient = socket.getInetAddress().toString();
+                // "Prints" connection status and client ip in GUI
+                //status.setText("Connection made!");
+                //ip.setText("Connected to: " + ipClient.replace("/", ""));
 
-            // Gets client ip and turns it to a string
-            String ipClient = socket.getInetAddress().toString();
+                // Send file
+                File file = new File("D:\\Java\\FTPServer\\Server\\src\\test.txt");
+                byte[] bytes = new byte[(int) file.length()];
+                FileInputStream fis = new FileInputStream(file);
+                BufferedInputStream bis = new BufferedInputStream(fis);
+                bis.read(bytes, 0, bytes.length);
+                OutputStream os = socket.getOutputStream();
 
-            // "Prints" connection status and client ip in GUI
-            status.setText("Connection made!");
-            ip.setText("Connected to: " + ipClient.replace("/", ""));
+                System.out.print("Sending...\r");
+                os.write(bytes, 0, bytes.length);
+                os.flush();
 
-            // sendfile
-            File file = new File ("test.txt");
-            byte[] mybytearray  = new byte[(int)file.length()];
-            FileInputStream fis = new FileInputStream(file);
-            BufferedInputStream bis = new BufferedInputStream(fis);
-            bis.read(mybytearray,0,mybytearray.length);
-            OutputStream os = socket.getOutputStream();
-            System.out.println("Sending...");
-            os.write(mybytearray,0,mybytearray.length);
-            os.flush();
-
+                socket.close();
+            }
 
             // Get data input stream
-            input = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-            String line = "";
 
-            while (!line.equals("Over"))
+            /*while (!line.equals("Over"))
             {
                 try
                 {
@@ -66,12 +66,13 @@ public class Server
                     System.out.println(i);
                     break;
                 }
-            }
-            status.setText("Connection lost...");
-            ip.setText("");
+            }*/
 
-            socket.close();
-            input.close();
+           /* status.setText("Connection lost...");
+            ip.setText("");
+*/
+            //input.close();
+
         }
 
         catch (IOException i)
